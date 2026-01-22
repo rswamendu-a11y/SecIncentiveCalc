@@ -4,6 +4,7 @@ enum class RowType {
     SMARTPHONE,
     WEARABLE,
     TABLET,
+    NOTE_PC,
     CARE_PLUS,
     BUNDLE,
     ACCESSORY

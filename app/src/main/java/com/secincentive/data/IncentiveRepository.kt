@@ -29,6 +29,16 @@ class IncentiveRepository(private val incentiveDao: IncentiveDao) {
     suspend fun insertCarePlusSlab(slab: CarePlusSlab) = incentiveDao.insertCarePlusSlab(slab)
     suspend fun clearCarePlusSlabs() = incentiveDao.clearCarePlusSlabs()
 
+    // --- Bundle Rules ---
+    suspend fun getBundleRules(): List<BundleRule> = incentiveDao.getBundleRules()
+    suspend fun insertBundleRule(rule: BundleRule) = incentiveDao.insertBundleRule(rule)
+    suspend fun clearBundleRules() = incentiveDao.clearBundleRules()
+
+    // --- PC Tiers ---
+    suspend fun getPcTiers(): List<PcTier> = incentiveDao.getPcTiers()
+    suspend fun insertPcTier(tier: PcTier) = incentiveDao.insertPcTier(tier)
+    suspend fun clearPcTiers() = incentiveDao.clearPcTiers()
+
     // --- Additional Boosters ---
     suspend fun getAdditionalBoosters(): List<AdditionalBooster> = incentiveDao.getAdditionalBoosters()
 
@@ -99,6 +109,24 @@ class IncentiveRepository(private val incentiveDao: IncentiveDao) {
                     CarePlusSlab(minDevicePrice = 40000.0, maxDevicePrice = 69999.0, baseIncentive = 300.0)
                 )
                 slabs.forEach { incentiveDao.insertCarePlusSlab(it) }
+            }
+
+            // 6. Bundles (Placeholder Defaults)
+            if (incentiveDao.getBundleRules().isEmpty()) {
+                val rules = listOf(
+                    BundleRule(comboName = "Phone + Watch", isExclusiveChannel = false, incentiveAmount = 1000.0),
+                    BundleRule(comboName = "Phone + Tablet", isExclusiveChannel = false, incentiveAmount = 1500.0)
+                )
+                rules.forEach { incentiveDao.insertBundleRule(it) }
+            }
+
+            // 7. PC Tiers (Placeholder Defaults)
+            if (incentiveDao.getPcTiers().isEmpty()) {
+                val tiers = listOf(
+                    PcTier(tierName = "Ultra / Pro 360", incentiveAmount = 2000.0),
+                    PcTier(tierName = "Standard / Go", incentiveAmount = 1000.0)
+                )
+                tiers.forEach { incentiveDao.insertPcTier(it) }
             }
         }
     }
