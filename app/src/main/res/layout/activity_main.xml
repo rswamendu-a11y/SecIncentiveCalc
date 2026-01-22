@@ -1,0 +1,352 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.core.widget.NestedScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#F5F5F5">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:padding="16dp">
+
+        <!-- Header -->
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="16dp">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="SecIncentiveCalc"
+                android:textSize="24sp"
+                android:textStyle="bold"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintBottom_toBottomOf="parent"/>
+
+            <ImageButton
+                android:id="@+id/btn_settings"
+                android:layout_width="48dp"
+                android:layout_height="48dp"
+                android:src="@android:drawable/ic_menu_preferences"
+                android:background="?attr/selectableItemBackgroundBorderless"
+                android:contentDescription="Settings"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintBottom_toBottomOf="parent"/>
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+        <!-- Smartphones Card -->
+        <com.google.android.material.card.MaterialCardView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="16dp"
+            app:cardCornerRadius="8dp"
+            app:cardElevation="4dp">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:padding="16dp">
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="Smartphones"
+                    android:textSize="18sp"
+                    android:textStyle="bold"
+                    android:layout_marginBottom="8dp"/>
+
+                <CheckBox
+                    android:id="@+id/checkbox_fm_series"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="F/M Series Penalty Applied"
+                    android:visibility="gone"
+                    tools:visibility="gone"
+                    />
+                <!-- Note: Prompt said "F/M Checkbox" in card, but Adapter also supports per-row checkboxes.
+                     The logic implies FM is global or specific rows.
+                     Prompt: "Inside Smartphone Card: Header, RecyclerView (for slabs), F/M Checkbox, Subtotal Text."
+                     However, Adapter handles row items. FM is usually a global toggle for the sale or a property of the sale.
+                     Prompt implementation: "Smartphones: Header, RecyclerView (for slabs), F/M Checkbox, Subtotal Text."
+                     I will leave this CheckBox here but hidden/unused if the rows handle FM via UiRowItem.
+                     But based on UiRowItem having `isFmSeries` in CalculationInput, it might be per phone sale.
+                     Wait, CalculationInput has `isFmSeries` per SmartphoneEntry.
+                     So the checkbox should probably be PER ROW in the adapter if "F/M" applies to that specific sale.
+                     Or if it's a global toggle for "Are these sales F/M?".
+                     Given the layout prompt explicitly asks for "F/M Checkbox" in the CARD (outside recycler),
+                     it suggests a section-wide toggle or a special input.
+                     I'll keep it here.
+                -->
+
+                <androidx.recyclerview.widget.RecyclerView
+                    android:id="@+id/rv_smartphones"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:nestedScrollingEnabled="false"
+                    tools:itemCount="3"
+                    tools:listitem="@layout/item_incentive_row"/>
+
+                <TextView
+                    android:id="@+id/tv_smartphone_subtotal"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="Subtotal: ₹ 0"
+                    android:gravity="end"
+                    android:textStyle="bold"
+                    android:layout_marginTop="8dp"/>
+            </LinearLayout>
+        </com.google.android.material.card.MaterialCardView>
+
+        <!-- Wearables Card -->
+        <com.google.android.material.card.MaterialCardView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="16dp"
+            app:cardCornerRadius="8dp"
+            app:cardElevation="4dp">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:padding="16dp">
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="Wearables"
+                    android:textSize="18sp"
+                    android:textStyle="bold"
+                    android:layout_marginBottom="8dp"/>
+
+                <androidx.recyclerview.widget.RecyclerView
+                    android:id="@+id/rv_wearables"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:nestedScrollingEnabled="false"
+                    tools:itemCount="2"
+                    tools:listitem="@layout/item_incentive_row"/>
+
+                <TextView
+                    android:id="@+id/tv_wearable_subtotal"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="Subtotal: ₹ 0"
+                    android:gravity="end"
+                    android:textStyle="bold"
+                    android:layout_marginTop="8dp"/>
+            </LinearLayout>
+        </com.google.android.material.card.MaterialCardView>
+
+        <!-- Tablets Card -->
+        <com.google.android.material.card.MaterialCardView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="16dp"
+            app:cardCornerRadius="8dp"
+            app:cardElevation="4dp">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:padding="16dp">
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="Tablets"
+                    android:textSize="18sp"
+                    android:textStyle="bold"
+                    android:layout_marginBottom="8dp"/>
+
+                <androidx.recyclerview.widget.RecyclerView
+                    android:id="@+id/rv_tablets"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:nestedScrollingEnabled="false"
+                    tools:itemCount="2"
+                    tools:listitem="@layout/item_incentive_row"/>
+
+                <TextView
+                    android:id="@+id/tv_tablet_subtotal"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="Subtotal: ₹ 0"
+                    android:gravity="end"
+                    android:textStyle="bold"
+                    android:layout_marginTop="8dp"/>
+            </LinearLayout>
+        </com.google.android.material.card.MaterialCardView>
+
+        <!-- Care+ Card -->
+        <com.google.android.material.card.MaterialCardView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="16dp"
+            app:cardCornerRadius="8dp"
+            app:cardElevation="4dp">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:padding="16dp">
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="Samsung Care+"
+                    android:textSize="18sp"
+                    android:textStyle="bold"
+                    android:layout_marginBottom="8dp"/>
+
+                <androidx.recyclerview.widget.RecyclerView
+                    android:id="@+id/rv_care_plus"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:nestedScrollingEnabled="false"
+                    tools:itemCount="2"
+                    tools:listitem="@layout/item_incentive_row"/>
+
+                <TextView
+                    android:id="@+id/tv_care_subtotal"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="Subtotal: ₹ 0"
+                    android:gravity="end"
+                    android:textStyle="bold"
+                    android:layout_marginTop="8dp"/>
+            </LinearLayout>
+        </com.google.android.material.card.MaterialCardView>
+
+        <!-- Bundles Card (Placeholder/Empty for now as not fully detailed in rules but requested in layout) -->
+        <com.google.android.material.card.MaterialCardView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="16dp"
+            app:cardCornerRadius="8dp"
+            app:cardElevation="4dp">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:padding="16dp">
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="Bundles"
+                    android:textSize="18sp"
+                    android:textStyle="bold"
+                    android:layout_marginBottom="8dp"/>
+
+                <androidx.recyclerview.widget.RecyclerView
+                    android:id="@+id/rv_bundles"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:nestedScrollingEnabled="false"
+                    tools:itemCount="0"
+                    tools:listitem="@layout/item_incentive_row"/>
+
+                <TextView
+                    android:id="@+id/tv_bundle_subtotal"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="Subtotal: ₹ 0"
+                    android:gravity="end"
+                    android:textStyle="bold"
+                    android:layout_marginTop="8dp"/>
+            </LinearLayout>
+        </com.google.android.material.card.MaterialCardView>
+
+
+        <!-- Grand Total Card -->
+        <com.google.android.material.card.MaterialCardView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:cardCornerRadius="8dp"
+            app:cardElevation="8dp"
+            app:cardBackgroundColor="#E8F5E9">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:padding="16dp">
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="Summary"
+                    android:textSize="20sp"
+                    android:textStyle="bold"
+                    android:layout_marginBottom="12dp"/>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    android:weightSum="2"
+                    android:layout_marginBottom="8dp">
+
+                    <com.google.android.material.textfield.TextInputLayout
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:hint="Target Volume"
+                        android:layout_marginEnd="8dp">
+                        <com.google.android.material.textfield.TextInputEditText
+                            android:id="@+id/input_target_volume"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:inputType="numberDecimal"/>
+                    </com.google.android.material.textfield.TextInputLayout>
+
+                    <com.google.android.material.textfield.TextInputLayout
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:hint="Achieved Volume"
+                        android:layout_marginStart="8dp">
+                        <com.google.android.material.textfield.TextInputEditText
+                            android:id="@+id/input_achieved_volume"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:inputType="numberDecimal"/>
+                    </com.google.android.material.textfield.TextInputLayout>
+                </LinearLayout>
+
+                <TextView
+                    android:id="@+id/tv_gross_total"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="Gross Total: ₹ 0"
+                    android:textSize="16sp"
+                    android:gravity="end"
+                    android:layout_marginTop="8dp"/>
+
+                <TextView
+                    android:id="@+id/tv_net_payable"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="Net Payable: ₹ 0"
+                    android:textSize="22sp"
+                    android:textStyle="bold"
+                    android:textColor="#2E7D32"
+                    android:gravity="end"
+                    android:layout_marginTop="8dp"/>
+
+            </LinearLayout>
+        </com.google.android.material.card.MaterialCardView>
+
+    </LinearLayout>
+</androidx.core.widget.NestedScrollView>

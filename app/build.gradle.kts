@@ -32,6 +32,9 @@ android {
     kotlinOptions {
         jvmTarget = "1.8"
     }
+    buildFeatures {
+        viewBinding = true
+    }
 }
 
 dependencies {
@@ -49,4 +52,8 @@ dependencies {
 
     // Lifecycle
     implementation("androidx.lifecycle:lifecycle-viewmodel-ktx:2.6.2")
+
+    // UI Components
+    implementation("com.google.android.material:material:1.11.0")
+    implementation("androidx.constraintlayout:constraintlayout:2.1.4")
 }
