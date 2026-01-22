@@ -64,7 +64,7 @@
         android:text="₹ 0"
         android:gravity="end"
         android:textStyle="bold"
-        android:textColor="@color/com_google_android_material_color_primary_variant"
+        android:textColor="#6200EE"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintBottom_toBottomOf="parent"
