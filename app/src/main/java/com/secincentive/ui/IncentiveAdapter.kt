@@ -101,7 +101,7 @@ class IncentiveAdapter(
 
         private fun updateTotal(item: UiRowItem) {
             val total = item.quantity * item.unitIncentive
-            binding.calculated_total.text = "₹ ${String.format("%.0f", total)}"
+            binding.calculatedTotal.text = "₹ ${String.format("%.0f", total)}"
         }
     }
 
